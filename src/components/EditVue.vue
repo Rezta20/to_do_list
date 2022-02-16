@@ -1,32 +1,8 @@
 <template>
-  <button
-    @click="isShowEditMode = true"
-    v-if="!isShowEditMode"
-    class="bg-primary-white w-full h-14 border-2 border-gray-middleLight rounded text-left title text-gray-middleLight px-4 my-4"
-  >
-    <font-awesome-icon :icon="['fas', 'plus']" class="" />
-    Add Task
-  </button>
   <!-- Edit Card -->
-  <div v-if="isShowEditMode" class="flex flex-col justify-center items-center w-full my-4">
-    <div class="card-upper-title bg-gray-light flex items-center justify-between p-4 w-full">
-      <label for="todoItem" class="title px-2">
-        <input type="checkbox" name="todo" id="todoCheck" v-model="check" class="mx-2" />
-        <input
-          type="text"
-          name="todo"
-          id="todoItem"
-          placeholder="Type Something Here..."
-          class="placeholder-dark-gray title p-2 mx-1.5 bg-gray-light focus:outline-none"
-        />
-      </label>
-      <div>
-        <font-awesome-icon :icon="['far', 'star']" class="hover:text-primary-white hover:bg-yellow-dark" />
-        <font-awesome-icon :icon="['fas', 'pencil']" class="px-6 text-primary-black hover:text-blue-light" />
-      </div>
-    </div>
-    <div class="card-lower-content bg-gray-light my-1 relative w-full">
-      <div class="content mx-8 p-4">
+  <div v-if="isShowEditMode" class="flex flex-col justify-center items-center w-full">
+    <div class="card-content bg-gray-light relative w-full">
+      <div class="p-6">
         <div class="deadline">
           <div class="flex items-center subTitle">
             <font-awesome-icon :icon="['fas', 'calendar-days']" class="" />
@@ -35,10 +11,14 @@
           <div class="flex my-1">
             <div
               contentEditable="true"
-              data-text="yyyy/mm/dd"
+              data-text="yyyy / mm / dd"
               class="date w-1/3 bg-primary-white rounded mx-4 px-2 py-1"
-            ></div>
-            <div contentEditable="true" data-text="hh:mm" class="time w-1/3 bg-primary-white rounded px-2 py-1"></div>
+            >
+              {{ todo.date || '' }}
+            </div>
+            <div contentEditable="true" data-text="hh:mm" class="time w-1/3 bg-primary-white rounded px-2 py-1">
+              {{ todo.time || '' }}
+            </div>
           </div>
         </div>
         <div class="File my-4">
@@ -68,14 +48,15 @@
                 cols="60"
                 rows="10"
                 placeholder="Type your memo here..."
+                :value="todo.comment || ''"
                 class="p-2 w-full resize-none comments-textarea"
-              ></textarea>
+              />
             </label>
           </div>
         </div>
       </div>
       <div class="btn flex w-full absolute bottom-0 h-12">
-        <button @click="isShowEditMode = false" class="bg-primary-white w-1/2 text-red text-2xl font-medium">
+        <button @click="closeEditMode" class="bg-primary-white w-1/2 text-red text-2xl font-medium">
           <font-awesome-icon :icon="['fas', 'xmark']" class="px-2" />
           Cancel
         </button>
@@ -93,11 +74,33 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'EditVue',
+  props: {
+    isShowEditMode: { default: Boolean },
+    currentTodo: { default: Object }
+  },
+
+  mounted() {
+    this.todo = this.currentTodo;
+  },
+
   data() {
     return {
-      isShowEditMode: false,
-      check: false
+      check: false,
+      todo: {
+        isChecked: true,
+        title: ' 111111111',
+        mark: true,
+        date: '2022/05/12',
+        time: '08:38',
+        file: true,
+        comment: ' 滾去運動，動起乃，連滾帶動'
+      }
     };
+  },
+  methods: {
+    closeEditMode() {
+      this.$emit('isShowEditMode', false);
+    }
   }
 });
 </script>
@@ -111,7 +114,7 @@ input[type='checkbox'] {
   height: 76px;
 }
 
-.card-lower-content {
+.card-content {
   height: 443px;
 
   .date,

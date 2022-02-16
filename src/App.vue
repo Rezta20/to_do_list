@@ -38,24 +38,120 @@
 
     <!-- Lists -->
     <div class="flex flex-col items-center card-width mx-auto">
-      <Edit class="my-8" />
-      <Cards :currentTag="currentTag" />
+      <div class="w-full">
+        <button
+          @click="isShowEditMode = true"
+          v-if="!isShowEditMode"
+          class="bg-primary-white w-full h-14 border-2 border-gray-middleLight rounded text-left title text-gray-middleLight px-4 my-4"
+        >
+          <font-awesome-icon :icon="['fas', 'plus']" class="" />
+          Add Task
+        </button>
+        <Cards :isShowEditMode="isShowEditMode" class="my-4" :todoLists="newTodo" />
+      </div>
+      <Cards
+        class="w-full"
+        :currentTag="currentTag"
+        :todoLists="todoLists"
+        @markToggle="markToggle(todo)"
+        :isShowEditMode="isShowEditMode"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+/* eslint-disable vue/no-unused-components */
 import { defineComponent } from 'vue';
-import Edit from '@/components/EditVue.vue';
 import Cards from '@/components/CardsVue.vue';
 
 export default defineComponent({
   name: 'App',
-  components: { Edit, Cards },
+  components: { Cards },
   data: () => ({
-    currentTag: 'myTasks'
+    currentTag: 'myTasks',
+    isShowEditMode: false,
+    todoLists: [
+      {
+        isChecked: true,
+        title: ' 111111111',
+        mark: true,
+        date: '2022/05/12',
+        time: '08:38',
+        file: true,
+        comment: ' 滾去運動，動起乃，連滾帶動',
+        isEditing: false
+      },
+      {
+        isChecked: false,
+        title: ' 2222222',
+        mark: true,
+        date: '2022/09/05',
+        time: '22:38',
+        file: false,
+        comment: '',
+        isEditing: true
+      },
+      {
+        isChecked: true,
+        title: ' 333333',
+        mark: false,
+        date: '',
+        time: '19:20',
+        file: true,
+        comment: ' 跟那個誰吃飯啊，要不要吃飯',
+        isEditing: false
+      },
+      {
+        isChecked: false,
+        title: ' 444444',
+        mark: false,
+        date: '2022/05/12',
+        time: '08:38',
+        file: true,
+        comment: ' 滾去運動，動起乃，連滾帶動',
+        isEditing: true
+      },
+      {
+        isChecked: false,
+        title: ' 5555555',
+        mark: true,
+        date: '2022/09/05',
+        time: '22:38',
+        file: false,
+        comment: '',
+        isEditing: false
+      },
+      {
+        isChecked: true,
+        title: ' 66666e',
+        mark: false,
+        date: '',
+        time: '19:20',
+        file: true,
+        comment: ' 跟那個誰吃飯啊，要不要吃飯',
+        isEditing: true
+      }
+    ],
+    newTodo: [
+      {
+        isChecked: true,
+        title: ' new notessss',
+        mark: false,
+        date: '',
+        time: '19:20',
+        file: true,
+        comment: ' 跟那個誰吃飯啊，要不要吃飯',
+        isEditing: true
+      }
+    ]
   }),
-  computed: {}
+  computed: {},
+  methods: {
+    markToggle(todo: object) {
+      console.log('App', todo);
+    }
+  }
 });
 </script>
 
