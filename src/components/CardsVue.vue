@@ -46,8 +46,14 @@
       </div>
 
       <!-- 正在編輯時的 Layout -->
-      <Edit v-show="todo.isEditing" :currentTodo="todo" @isShowEditMode="todo.isEditing = false" />
+      <Edit
+        v-show="todo.isEditing"
+        :currentTodo="todo"
+        :isShowEditMode="todo.isEditing"
+        @close-edit-mode="closeEditMode"
+      />
     </div>
+    {{ closeEditMode }}
 
     <!-- <p class="status mx-6">{{ calculatedTasksLeft.length }} tasks {{ taskStatusText }}</p> -->
   </div>
@@ -140,10 +146,8 @@ export default defineComponent({
     }
   },
   methods: {
-    markToggle(todo: object) {
-      // todo.mark = !todo.mark;
-      console.log('card', todo);
-      this.$emit('markToggle', todo);
+    closeEditMode(value) {
+      return value;
     }
   }
 });

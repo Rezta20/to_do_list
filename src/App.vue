@@ -40,7 +40,7 @@
     <div class="flex flex-col items-center card-width mx-auto">
       <div class="w-full">
         <button
-          @click="isShowEditMode = true"
+          @click="showEditModeToggle"
           v-if="!isShowEditMode"
           class="bg-primary-white w-full h-14 border-2 border-gray-middleLight rounded text-left title text-gray-middleLight px-4 my-4"
         >
@@ -49,19 +49,12 @@
         </button>
         <Cards :isShowEditMode="isShowEditMode" class="my-4" :todoLists="newTodo" />
       </div>
-      <Cards
-        class="w-full"
-        :currentTag="currentTag"
-        :todoLists="todoLists"
-        @markToggle="markToggle(todo)"
-        :isShowEditMode="isShowEditMode"
-      />
+      <Cards class="w-full" :currentTag="currentTag" :todoLists="todoLists" :isShowEditMode="isShowEditMode" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-/* eslint-disable vue/no-unused-components */
 import { defineComponent } from 'vue';
 import Cards from '@/components/CardsVue.vue';
 
@@ -136,20 +129,21 @@ export default defineComponent({
     newTodo: [
       {
         isChecked: true,
-        title: ' new notessss',
+        title: '',
         mark: false,
         date: '',
-        time: '19:20',
-        file: true,
-        comment: ' 跟那個誰吃飯啊，要不要吃飯',
-        isEditing: true
+        time: '',
+        file: false,
+        comment: '',
+        isEditing: false
       }
     ]
   }),
   computed: {},
   methods: {
-    markToggle(todo: object) {
-      console.log('App', todo);
+    showEditModeToggle() {
+      this.newTodo[0].isEditing = true;
+      this.isShowEditMode = true;
     }
   }
 });
