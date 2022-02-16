@@ -2,7 +2,7 @@
   <!-- Edit Card -->
   <div v-if="isShowEditMode" class="flex flex-col justify-center items-center w-full">
     <div class="card-content bg-gray-light relative w-full">
-      <div class="p-6">
+      <div class="p-6 border-t-4 border-primary-gray">
         <div class="deadline">
           <div class="flex items-center subTitle">
             <font-awesome-icon :icon="['fas', 'calendar-days']" class="" />
@@ -72,6 +72,17 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+// export default {
+//   setup(props, context) {
+//     const closeEditMode = () => {
+//       context.emit('closeEditMode', false);
+//     };
+//     return {
+//       closeEditMode
+//     };
+//   }
+// };
+
 export default defineComponent({
   name: 'EditVue',
   props: {
@@ -99,7 +110,7 @@ export default defineComponent({
   },
   methods: {
     closeEditMode() {
-      this.$emit('isShowEditMode', false);
+      this.$emit('closeEditMode', false);
     }
   }
 });
