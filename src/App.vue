@@ -49,7 +49,13 @@
         </button>
         <Cards :isShowEditMode="isShowEditMode" class="my-4" :todoLists="newTodo" />
       </div>
-      <Cards class="w-full" :currentTag="currentTag" :todoLists="todoLists" :isShowEditMode="isShowEditMode" />
+      <Cards
+        class="w-full"
+        :currentTag="currentTag"
+        :todoLists="todoLists"
+        :isShowEditMode="isShowEditMode"
+        @closeEditMode="closeEditMode"
+      />
     </div>
   </div>
 </template>
@@ -57,6 +63,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import Cards from '@/components/CardsVue.vue';
+
 
 export default defineComponent({
   name: 'App',
@@ -144,7 +151,13 @@ export default defineComponent({
     showEditModeToggle() {
       this.newTodo[0].isEditing = true;
       this.isShowEditMode = true;
-    }
+    },
+    closeEditMode(currentTodo: object) {
+      currentTodo.isEditing = !currentTodo.isEditing
+      console.log('app', currentTodo);
+
+
+
   }
 });
 </script>

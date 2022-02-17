@@ -46,36 +46,98 @@
       </div>
 
       <!-- 正在編輯時的 Layout -->
-      <Edit
-        v-show="todo.isEditing"
-        :currentTodo="todo"
-        :isShowEditMode="todo.isEditing"
-        @close-edit-mode="closeEditMode"
-      />
-    </div>
-    {{ closeEditMode }}
+      <!-- <Edit v-show="todo.isEditing" :currentTodo="todo" :isShowEditMode="todo.isEditing" /> -->
 
-    <!-- <p class="status mx-6">{{ calculatedTasksLeft.length }} tasks {{ taskStatusText }}</p> -->
+      <!-- Edit Card -->
+      <div v-show="todo.isEditing" class="flex flex-col justify-center items-center w-full">
+        <div class="card-content bg-gray-light relative w-full">
+          <div class="p-6 border-t-4 border-primary-gray">
+            <div class="deadline">
+              <div class="flex items-center subTitle">
+                <font-awesome-icon :icon="['fas', 'calendar-days']" class="" />
+                <h4 class="px-2">Deadline</h4>
+              </div>
+              <div class="flex my-1">
+                <div
+                  contentEditable="true"
+                  data-text="yyyy / mm / dd"
+                  class="date w-1/3 bg-primary-white rounded mx-4 px-2 py-1"
+                >
+                  {{ todo.date || '' }}
+                </div>
+                <div contentEditable="true" data-text="hh:mm" class="time w-1/3 bg-primary-white rounded px-2 py-1">
+                  {{ todo.time || '' }}
+                </div>
+              </div>
+            </div>
+            <div class="File my-4">
+              <div class="flex items-center subTitle">
+                <font-awesome-icon :icon="['far', 'file']" class="" />
+                <h4 class="px-2 l">File</h4>
+              </div>
+              <div class="flex">
+                <label for="addFile" class="mx-4 my-2 w-auto">
+                  <button class="text-primary-white bg-gray-middleLight w-6 h-6">
+                    <font-awesome-icon :icon="['fas', 'plus']" class="" @click="$refs.file.click()" />
+                  </button>
+                  <input type="file" name="addFile" style="visibility: hidden" />
+                </label>
+              </div>
+            </div>
+            <div class="comment">
+              <div class="flex items-center my-1 subTitle">
+                <font-awesome-icon :icon="['far', 'comment']" class="" />
+                <h4 class="px-2">Comment</h4>
+              </div>
+              <div class="flex">
+                <label for="comments" class="mx-4">
+                  <textarea
+                    name="comments"
+                    id=""
+                    cols="60"
+                    rows="10"
+                    placeholder="Type your memo here..."
+                    :value="todo.comment || ''"
+                    class="p-2 w-full resize-none comments-textarea mb-10"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="btn flex w-full absolute bottom-0 h-12">
+            <button @click="closeEditMode(todo)" class="bg-primary-white w-1/2 text-red text-2xl font-medium">
+              <font-awesome-icon :icon="['fas', 'xmark']" class="px-2" />
+              Cancel
+            </button>
+            <button class="bg-blue-light w-1/2 text-primary-white text-2xl font-medium">
+              <font-awesome-icon :icon="['fas', 'plus']" class="px-2" />
+              Add Task
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="status mx-6">{{ calculatedTasksLeft.length }} tasks {{ taskStatusText }}</p>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Edit from '@/components/EditVue.vue';
+// import Edit from '@/components/EditVue.vue';
 
 export default defineComponent({
   name: 'CardsVue',
-  components: { Edit },
+  components: {},
   props: {
     currentTag: {
       type: String,
       default: ''
     },
-    isShowEditMode: { type: Boolean, default: true },
     todoLists: { type: Array, default: () => [] }
   },
+
   data: () => ({
-    // isShowEditMode: false,
     currentEdit: 0
   }),
   computed: {
@@ -146,8 +208,9 @@ export default defineComponent({
     }
   },
   methods: {
-    closeEditMode(value) {
-      return value;
+    closeEditMode(todo: object) {
+      console.log('cards', todo);
+      this.$emit('closeEditMode', todo);
     }
   }
 });

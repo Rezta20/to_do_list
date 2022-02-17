@@ -108,11 +108,7 @@ export default defineComponent({
       }
     };
   },
-  methods: {
-    closeEditMode() {
-      this.$emit('closeEditMode', false);
-    }
-  }
+  methods: {}
 });
 </script>
 
