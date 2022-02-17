@@ -117,6 +117,7 @@
         </div>
       </div>
     </div>
+    {{ closeEditMode }}
 
     <p class="status mx-6">{{ calculatedTasksLeft.length }} tasks {{ taskStatusText }}</p>
   </div>

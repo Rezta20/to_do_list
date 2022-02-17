@@ -108,7 +108,15 @@ export default defineComponent({
       }
     };
   },
+<<<<<<< HEAD
   methods: {}
+=======
+  methods: {
+    closeEditMode() {
+      this.$emit('closeEditMode', false);
+    }
+  }
+>>>>>>> cb9a686e8ba10ae53010569a099ab0d588453323
 });
 </script>
 
